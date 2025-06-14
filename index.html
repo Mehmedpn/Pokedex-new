@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./styles/images.css">
+    <link rel="stylesheet" href="./styles/pkm-ctn.css">
+    <link rel="icon" href="./assets/Pokedex-logo.png" type="image/x-icon">
+
+</head>
+
+<body onload="init()">
+
+    <nav>
+        <div class="navbar" >
+            <a href="#"><img class="logo" src="assets/Pokemon-logo.svg" alt="Pokemon Logo" onclick="history.go(0)"></a>
+            <form onsubmit="event.preventDefault();">
+                <input type="text" id="search-input" placeholder="Pokémon Name or ID"
+                    oninput="searchPokemon()">
+                <button type="submit">search</button>
+            </form>
+        </div>
+    </nav>
+
+
+    <div id="about-container" style="display: none;"></div>
+
+    <main id="pokemon-container" class="grid"></main>
+
+    <div class="loadmore-ctn">
+        <button id="loadMore_btn" onclick="loadMorePokemons()">Load More</button>
+        <button id="loadAllPokemons_btn" onclick="loadAllPokemons()">Load all Pokemons</button>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
