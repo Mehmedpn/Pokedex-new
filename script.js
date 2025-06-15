@@ -1,18 +1,23 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-const LIMIT = 151;
+const LIMIT = 40;
 const OFFSET = 0;
 const container = document.getElementById('pokemon-container');
 const img_front_default = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
 const front_default = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/";
-let allPokemons = []; // globale Liste für Suche
+let allPokemons = [];
+const loader = document.getElementById('loader');
+
 
 async function init() {
+  loader.style.display = "flex";
   const pokemons = await fetchPokemons();
   allPokemons = pokemons;
   for (let i = 0; i < pokemons.length; i++) {
     await renderPokemon(pokemons[i], i);
   }
+  loader.style.display = "none";
 }
+
 
 
 async function fetchPokemons(offset = 0) {
@@ -28,17 +33,10 @@ async function fetchPokemons(offset = 0) {
 
 async function renderPokemon(pokemon, index) {
   const pokemonIndex = index + OFFSET + 1;
-
-  // ➕ Lade Details von der API
   const detailsResponse = await fetch(pokemon.url);
   const details = await detailsResponse.json();
-
-  // ➕ Extrahiere die Typen
   const types = details.types.map(t => t.type.name).join(", ");
-
-  // ➕ Erstelle das HTML
   const liElement = createHTML(pokemon, pokemonIndex, types);
-
   container.appendChild(liElement);
 }
 
@@ -93,21 +91,26 @@ function searchPokemon() {
 }
 
 async function loadMorePokemons() {
+  loader.style.display = "flex";
+
   document.getElementById("search-input").value = "";
 
   const currentCount = container.children.length;
   const nextOffset = OFFSET + currentCount;
 
   const pokemons = await fetchPokemons(nextOffset);
-  allPokemons.push(...pokemons); // wichtig für Suchfunktion
+  allPokemons.push(...pokemons);
 
   for (let i = 0; i < pokemons.length; i++) {
-    await renderPokemon(pokemons[i], nextOffset + i); // Korrektes Index
+    await renderPokemon(pokemons[i], nextOffset + i);
   }
+
+  loader.style.display = "none";
 }
 
 
 async function loadAllPokemons() {
+  loader.style.display = "flex";
 
   document.getElementById("search-input").value = "";
   const totalCount = 1302;
@@ -127,5 +130,6 @@ async function loadAllPokemons() {
 
   document.getElementById("loadMore_btn").style.display = "none";
   document.getElementById("loadAllPokemons_btn").style.display = "none";
-}
 
+  loader.style.display = "none";
+}
