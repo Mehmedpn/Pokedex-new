@@ -10,14 +10,15 @@
     <link rel="stylesheet" href="./styles/pkm-ctn.css">
     <link rel="stylesheet" href="styles/loader.css">
     <link rel="icon" href="./assets/Pokedex-logo.png" type="image/x-icon">
-
-</head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=close" /></head>
 
 <body onload="init()">
 
     <nav>
         <div class="navbar">
-            <a href="#"><img class="logo" src="assets/Pokemon-logo.svg" alt="Pokemon Logo" onclick="history.go(0)"></a>
+            <a href="#"><img class="logo" src="assets/Pokemon-logo.svg" alt="Pokemon Logo"></a>
+            <a href="#" class="pokdex-logo" onclick="history.go(0)"><img src="assets/Pokedex-logo.png" alt="Pokedex" srcset=""></a>
+        
             <form onsubmit="event.preventDefault();">
                 <input type="text" id="search-input" placeholder="Pokémon Name or ID" oninput="searchPokemon()">
                 <button type="submit">search</button>
@@ -25,8 +26,9 @@
         </div>
     </nav>
 
-    <div id="loader">
-        <div class="spinner"></div>
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <h2 class="loader-txt">Loading Pokemons...</h2>
     </div>
 
     <div id="about-container" style="display: none;"></div>
@@ -37,6 +39,11 @@
         <button id="loadMore_btn" onclick="loadMorePokemons()">Load More</button>
         <button id="loadAllPokemons_btn" onclick="loadAllPokemons()">Load all Pokemons</button>
     </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>Created by Mehmed Pinaroglu </p>
+    </footer>
 
     <script src="./script.js"></script>
 </body>
