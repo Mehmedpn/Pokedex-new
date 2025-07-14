@@ -7,6 +7,27 @@ const front_default = "https://raw.githubusercontent.com/PokeAPI/sprites/master/
 let allPokemons = [];
 const loader = document.getElementById('loader');
 
+const typeColors = {
+  grass: '#78C850',
+  fire: '#F08030',
+  water: '#6890F0',
+  electric: '#F8D030',
+  bug: '#A8B820',
+  normal: '#A8A878',
+  poison: '#A040A0',
+  ground: '#E0C068',
+  fairy: '#EE99AC',
+  fighting: '#C03028',
+  psychic: '#F85888',
+  rock: '#B8A038',
+  ghost: '#705898',
+  ice: '#98D8D8',
+  dragon: '#7038F8',
+  dark: '#705848',
+  steel: '#B8B8D0',
+  flying: '#A890F0'
+};
+
 async function init() {
   document.getElementById("loader-wrapper").style.display = "flex";
   const pokemons = await fetchPokemons();
@@ -50,7 +71,7 @@ function createHTML(pokemon, pokemonIndex, types, imageUrl) {
 
   liElement.setAttribute("onclick", `aboutPokemon('${pokemon.name}', ${pokemonIndex})`);
   liElement.innerHTML = `
-    <h2>${pokemonIndex} ${pokemon.name}</h2>
+    <h2>${pokemonIndex} ${pokemon.name.toUpperCase()}</h2>
     <img class="img-pokemon" src="${imageUrl}" alt="image: ${pokemon.name}" />
     <p>Types: ${types}</p>
   `;
@@ -74,7 +95,7 @@ function getinfo(pokemon, types, imageUrl) {
   return `
     <div class="overlay">
       <span class="material-symbols-outlined" onclick="closeOverlay()">close</span>
-      <h2>About ${pokemon}</h2>
+      <h2>About ${pokemon.toUpperCase()}</h2>
       <img class="img-pokemon" src="${imageUrl}" alt="image: ${pokemon}" />
       <p><strong>Types:</strong> ${types}</p>
       <p>More details about the Pokémon will be displayed here.</p>
@@ -131,24 +152,3 @@ async function loadAllPokemons() {
   document.getElementById("loadAllPokemons_btn").style.display = "none";
   document.getElementById("loader-wrapper").style.display = "none";
 }
-
-const typeColors = {
-  grass: '#78C850',
-  fire: '#F08030',
-  water: '#6890F0',
-  electric: '#F8D030',
-  bug: '#A8B820',
-  normal: '#A8A878',
-  poison: '#A040A0',
-  ground: '#E0C068',
-  fairy: '#EE99AC',
-  fighting: '#C03028',
-  psychic: '#F85888',
-  rock: '#B8A038',
-  ghost: '#705898',
-  ice: '#98D8D8',
-  dragon: '#7038F8',
-  dark: '#705848',
-  steel: '#B8B8D0',
-  flying: '#A890F0'
-};
