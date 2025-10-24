@@ -81,31 +81,91 @@ function createHTML(pokemon, pokemonIndex, types, imageUrl) {
 
 async function aboutPokemon(pokemon, index) {
   const aboutContainer = document.getElementById('about-container');
-  document.getElementById("about-container").style.display = 'flex';
+  aboutContainer.style.display = 'flex';
+
   const response = await fetch(`${BASE_URL}/${index}`);
   const details = await response.json();
   const types = details.types.map(t => t.type.name).join(", ");
   const imageUrl = details.sprites.other["official-artwork"].front_default;
 
   aboutContainer.innerHTML = getinfo(pokemon, types, imageUrl);
+
+  document.body.style.overflow = "hidden";
+
+  document.getElementById("pokemon-hp").textContent = "HP: " + details.stats[0].base_stat;
+  document.getElementById("pokemon-attack").textContent = "Attack: " + details.stats[1].base_stat;
+  document.getElementById("pokemon-defense").textContent = "Defense: " + details.stats[2].base_stat;
+  document.getElementById("pokemon-special-attack").textContent = "Special Attack: " + details.stats[3].base_stat;
+  document.getElementById("pokemon-special-defense").textContent = "Special Defense: " + details.stats[4].base_stat;
+  document.getElementById("pokemon-speed").textContent = "Speed: " + details.stats[5].base_stat;
+
+  
+
 }
 
 
 function getinfo(pokemon, types, imageUrl) {
   return `
-    <div class="overlay">
+    <div class="overlay" onclick="event.stopPropagation()">
       <span class="material-symbols-outlined" onclick="closeOverlay()">close</span>
-      <h2>About ${pokemon.toUpperCase()}</h2>
+      <h2>${pokemon.toUpperCase()}</h2>
       <img class="img-pokemon" src="${imageUrl}" alt="image: ${pokemon}" />
-      <p><strong>Types:</strong> ${types}</p>
-      <p>More details about the Pokémon will be displayed here.</p>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'about-tab')">About</button>
+        <button class="tab-btn" onclick="openTab(event, 'stats-tab')">Stats</button>
+        <button class="tab-btn" onclick="openTab(event, 'evolution-tab')">Evolution</button>        
+        <button class="tab-btn" onclick="openTab(event, 'moves-tab')">Moves</button>
+      </div>
+
+      <!-- Tab Content -->
+      <div id="about-tab" class="tab-content active">
+        <p><strong>Types:</strong>${types}</p>
+        <p><strong>Height:</strong>${pokemon.height / 10} m</p>
+        <p><strong>Weight:</strong>${pokemon.weight / 10} kg</p>
+      </div>
+
+      <div id="stats-tab" class="tab-content">
+        <p id="pokemon-hp"><strong> </strong></p>
+        <p id="pokemon-attack"></p>
+        <p id="pokemon-defense"></p>
+        <p id="pokemon-special-attack"></p>
+        <p id="pokemon-special-defense"></p>
+        <p id="pokemon-speed"></p>
+      </div>
+
+      <div id="evolution-tab" class="tab-content">
+        <p>Evolution will load here …</p>
+      </div>      
+
+      <div id="moves-tab" class="tab-content">
+        <p>Moves werden später hier geladen …</p>
+      </div>
+
     </div>
   `;
 }
 
+function openTab(evt, tabId) {
+  const contents = document.querySelectorAll(".tab-content");
+  contents.forEach(c => c.classList.remove("active"));
+
+  const buttons = document.querySelectorAll(".tab-btn");
+  buttons.forEach(b => b.classList.remove("active"));
+
+  document.getElementById(tabId).classList.add("active");
+  evt.currentTarget.classList.add("active");
+}
+
+
+
+
 
 function closeOverlay() {
   document.getElementById("about-container").style.display = 'none';
+  document.body.style.overflow = "";
+
 }
 
 function searchPokemon() {
