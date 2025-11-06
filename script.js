@@ -1,5 +1,5 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
-const LIMIT = 40;
+const LIMIT = 25;
 const OFFSET = 0;
 const container = document.getElementById('pokemon-container');
 const img_front_default = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/";
@@ -88,8 +88,8 @@ async function aboutPokemon(pokemon, index) {
   const types = details.types.map(t => t.type.name).join(", ");
   const imageUrl = details.sprites.other["official-artwork"].front_default;
 
-  aboutContainer.innerHTML = getinfo(pokemon, types, imageUrl);
-
+ aboutContainer.innerHTML = getinfo(details, types, imageUrl);
+ 
   document.body.style.overflow = "hidden";
 
   document.getElementById("pokemon-hp").textContent = "HP: " + details.stats[0].base_stat;
@@ -104,26 +104,33 @@ async function aboutPokemon(pokemon, index) {
 }
 
 
-function getinfo(pokemon, types, imageUrl) {
+function getinfo(details, types, imageUrl) {
+  const heightInMeters = (details.height / 10).toFixed(1);
+  const weightInKilograms = (details.weight / 10).toFixed(1);
   return `
     <div class="overlay" onclick="event.stopPropagation()">
       <span class="material-symbols-outlined" onclick="closeOverlay()">close</span>
-      <h2>${pokemon.toUpperCase()}</h2>
-      <img class="img-pokemon" src="${imageUrl}" alt="image: ${pokemon}" />
+      <h2>${details.name.toUpperCase()}</h2>
+      <img class="img-pokemon" src="${imageUrl}" alt="image: ${details.name}" />
 
       <!-- Tabs -->
       <div class="tabs">
+        <div onclick=lastTab()>X</div>
         <button class="tab-btn active" onclick="openTab(event, 'about-tab')">About</button>
         <button class="tab-btn" onclick="openTab(event, 'stats-tab')">Stats</button>
         <button class="tab-btn" onclick="openTab(event, 'evolution-tab')">Evolution</button>        
         <button class="tab-btn" onclick="openTab(event, 'moves-tab')">Moves</button>
+        <div onclick=nextTab()>X</div>
+
       </div>
+
+
 
       <!-- Tab Content -->
       <div id="about-tab" class="tab-content active">
-        <p><strong>Types:</strong>${types}</p>
-        <p><strong>Height:</strong>${pokemon.height / 10} m</p>
-        <p><strong>Weight:</strong>${pokemon.weight / 10} kg</p>
+        <p><strong>Types:</strong> ${types}</p>
+        <p><strong>Height:</strong> ${heightInMeters} m</p>
+        <p><strong>Weight:</strong> ${weightInKilograms} kg</p>
       </div>
 
       <div id="stats-tab" class="tab-content">
