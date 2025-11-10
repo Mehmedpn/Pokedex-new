@@ -88,8 +88,8 @@ async function aboutPokemon(pokemon, index) {
   const types = details.types.map(t => t.type.name).join(", ");
   const imageUrl = details.sprites.other["official-artwork"].front_default;
 
- aboutContainer.innerHTML = getinfo(details, types, imageUrl);
- 
+  aboutContainer.innerHTML = getinfo(details, types, imageUrl);
+
   document.body.style.overflow = "hidden";
 
   document.getElementById("pokemon-hp").textContent = "HP: " + details.stats[0].base_stat;
@@ -99,7 +99,7 @@ async function aboutPokemon(pokemon, index) {
   document.getElementById("pokemon-special-defense").textContent = "Special Defense: " + details.stats[4].base_stat;
   document.getElementById("pokemon-speed").textContent = "Speed: " + details.stats[5].base_stat;
 
-  
+
 
 }
 
@@ -115,16 +115,14 @@ function getinfo(details, types, imageUrl) {
 
       <!-- Tabs -->
       <div class="tabs">
-        <div onclick=lastTab()>X</div>
+        <span class="material-symbols-outlined" onclick="lastTab()">arrow_circle_left</span>
         <button class="tab-btn active" onclick="openTab(event, 'about-tab')">About</button>
         <button class="tab-btn" onclick="openTab(event, 'stats-tab')">Stats</button>
         <button class="tab-btn" onclick="openTab(event, 'evolution-tab')">Evolution</button>        
         <button class="tab-btn" onclick="openTab(event, 'moves-tab')">Moves</button>
-        <div onclick=nextTab()>X</div>
-
-      </div>
-
-
+        <span class="material-symbols-outlined" onclick="nextTab()">arrow_circle_right</span>
+        </div>    
+      
 
       <!-- Tab Content -->
       <div id="about-tab" class="tab-content active">
@@ -165,14 +163,9 @@ function openTab(evt, tabId) {
   evt.currentTarget.classList.add("active");
 }
 
-
-
-
-
 function closeOverlay() {
   document.getElementById("about-container").style.display = 'none';
   document.body.style.overflow = "";
-
 }
 
 function searchPokemon() {
@@ -200,7 +193,6 @@ async function loadMorePokemons() {
   document.getElementById("loader-wrapper").style.display = "none";
 }
 
-
 async function loadAllPokemons() {
   document.getElementById("loader-wrapper").style.display = "flex";
   document.getElementById("search-input").value = "";
@@ -218,4 +210,38 @@ async function loadAllPokemons() {
   document.getElementById("loadMore_btn").style.display = "none";
   document.getElementById("loadAllPokemons_btn").style.display = "none";
   document.getElementById("loader-wrapper").style.display = "none";
+}
+
+let currentTabIndex = 0;
+
+function nextTab() {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const contents = document.querySelectorAll(".tab-content");
+
+  // Wenn wir schon beim letzten Tab sind → nichts machen
+  if (currentTabIndex >= tabs.length - 1) return;
+
+  tabs[currentTabIndex].classList.remove("active");
+  contents[currentTabIndex].classList.remove("active");
+
+  currentTabIndex++;
+
+  tabs[currentTabIndex].classList.add("active");
+  contents[currentTabIndex].classList.add("active");
+}
+
+function lastTab() {
+  const tabs = document.querySelectorAll(".tab-btn");
+  const contents = document.querySelectorAll(".tab-content");
+
+  // Wenn wir schon beim ersten Tab sind → nichts machen
+  if (currentTabIndex <= 0) return;
+
+  tabs[currentTabIndex].classList.remove("active");
+  contents[currentTabIndex].classList.remove("active");
+
+  currentTabIndex--;
+
+  tabs[currentTabIndex].classList.add("active");
+  contents[currentTabIndex].classList.add("active");
 }

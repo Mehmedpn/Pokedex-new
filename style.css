@@ -64,7 +64,7 @@ nav {
   padding: 20px;
   max-width: 600px;
   width: 90%;
-  max-height: 80%;
+  height: 500px;
   overflow-y: auto;
   text-align: center;
 }
@@ -204,4 +204,13 @@ form button:hover {
   text-align: left;
   margin: 0;
   padding: 8px;
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
