@@ -89,18 +89,13 @@ async function aboutPokemon(pokemon, index) {
   const imageUrl = details.sprites.other["official-artwork"].front_default;
 
   aboutContainer.innerHTML = getinfo(details, types, imageUrl);
-
   document.body.style.overflow = "hidden";
-
   document.getElementById("pokemon-hp").textContent = "HP: " + details.stats[0].base_stat;
   document.getElementById("pokemon-attack").textContent = "Attack: " + details.stats[1].base_stat;
   document.getElementById("pokemon-defense").textContent = "Defense: " + details.stats[2].base_stat;
   document.getElementById("pokemon-special-attack").textContent = "Special Attack: " + details.stats[3].base_stat;
   document.getElementById("pokemon-special-defense").textContent = "Special Defense: " + details.stats[4].base_stat;
   document.getElementById("pokemon-speed").textContent = "Speed: " + details.stats[5].base_stat;
-
-
-
 }
 
 
@@ -113,7 +108,6 @@ function getinfo(details, types, imageUrl) {
       <h2>${details.name.toUpperCase()}</h2>
       <img class="img-pokemon" src="${imageUrl}" alt="image: ${details.name}" />
 
-      <!-- Tabs -->
       <div class="tabs">
         <span class="material-symbols-outlined" onclick="lastTab()">arrow_circle_left</span>
         <button class="tab-btn active" onclick="openTab(event, 'about-tab')">About</button>
@@ -121,10 +115,9 @@ function getinfo(details, types, imageUrl) {
         <button class="tab-btn" onclick="openTab(event, 'evolution-tab')">Evolution</button>        
         <button class="tab-btn" onclick="openTab(event, 'moves-tab')">Moves</button>
         <span class="material-symbols-outlined" onclick="nextTab()">arrow_circle_right</span>
-        </div>    
+      </div>    
       
 
-      <!-- Tab Content -->
       <div id="about-tab" class="tab-content active">
         <p><strong>Types:</strong> ${types}</p>
         <p><strong>Height:</strong> ${heightInMeters} m</p>
@@ -155,10 +148,8 @@ function getinfo(details, types, imageUrl) {
 function openTab(evt, tabId) {
   const contents = document.querySelectorAll(".tab-content");
   contents.forEach(c => c.classList.remove("active"));
-
   const buttons = document.querySelectorAll(".tab-btn");
   buttons.forEach(b => b.classList.remove("active"));
-
   document.getElementById(tabId).classList.add("active");
   evt.currentTarget.classList.add("active");
 }
@@ -217,15 +208,10 @@ let currentTabIndex = 0;
 function nextTab() {
   const tabs = document.querySelectorAll(".tab-btn");
   const contents = document.querySelectorAll(".tab-content");
-
-  // Wenn wir schon beim letzten Tab sind → nichts machen
   if (currentTabIndex >= tabs.length - 1) return;
-
   tabs[currentTabIndex].classList.remove("active");
   contents[currentTabIndex].classList.remove("active");
-
   currentTabIndex++;
-
   tabs[currentTabIndex].classList.add("active");
   contents[currentTabIndex].classList.add("active");
 }
@@ -233,15 +219,10 @@ function nextTab() {
 function lastTab() {
   const tabs = document.querySelectorAll(".tab-btn");
   const contents = document.querySelectorAll(".tab-content");
-
-  // Wenn wir schon beim ersten Tab sind → nichts machen
   if (currentTabIndex <= 0) return;
-
   tabs[currentTabIndex].classList.remove("active");
   contents[currentTabIndex].classList.remove("active");
-
   currentTabIndex--;
-
   tabs[currentTabIndex].classList.add("active");
   contents[currentTabIndex].classList.add("active");
 }
